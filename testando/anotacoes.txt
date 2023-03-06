@@ -1,0 +1,5 @@
+array.map é para retornar array a aprtir de detrminada condição
+Object tem método values em que se retorna os valores do objeto
+.join transforma array em string
+fazer requisição const response =  await fetch(url);
+yargs ordem da instrução
