@@ -20,10 +20,6 @@ app.get('/livros/:id', (req,res)=>{
     res.json(livros[index]);
 })
 
-app.post('/livros', (req,res)=>{
-    livros.create(req.body);
-    res.status(201).send('Livro cadastrado com sucesso')
-})
 
 app.put('/livros/:id', (req,res)=>{
     let index = buscaLivro(req.params.id);
@@ -31,12 +27,7 @@ app.put('/livros/:id', (req,res)=>{
     res.json(livros);
 })
 
-app.delete('/livros/:id', (req,res)=>{
-    let {id}=req.params;
-    let index = buscaLivro(id);
-    livros.splice(index, 1);
-    res.json(`Livro ${id} removido com sucesso`);
-})
+
 
 function buscaLivro(id){
     return livros.findIndex(livro=>livro.id==id);
