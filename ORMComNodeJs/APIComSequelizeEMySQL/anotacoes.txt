@@ -1,0 +1,1 @@
+transações-> se der algum erro na operação não salva no banco, volta como estava antes  
