@@ -1,1 +1,4 @@
-transações-> se der algum erro na operação não salva no banco, volta como estava antes  
+transações-> se der algum erro na operação não salva no banco, volta como estava antes 
+database.sequelize.transaction(async transacao =>{}) 
+
+serviços-> quem se conecta ao banco são escola_ingles
