@@ -1,0 +1,4 @@
+dot env cria variavel de ambiente, colocar no .env e usar 
+colcoar .env no gitignore, assim ngm vê coisa importante
+
+npx eslint pasta --fix concerta erros 
