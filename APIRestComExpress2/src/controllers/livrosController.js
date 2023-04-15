@@ -70,7 +70,6 @@ class LivroController {
   static listarLivroPorEditora = async (req, res) => {
     try {
       const editora = req.query.editora;
-      console.log(editora);
       const resultado=await livros.find({ "editora": editora });
       res.status(200).send(resultado);
     } catch (erro) {
