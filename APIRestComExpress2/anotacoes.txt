@@ -2,3 +2,7 @@ dot env cria variavel de ambiente, colocar no .env e usar
 colcoar .env no gitignore, assim ngm vê coisa importante
 
 npx eslint pasta --fix concerta erros 
+
+middleware-> função especial do express que vai ser usada em todas as requisições (app.use(erro,req,res,next)), interceptam uma requisição
+middleware de erro tem sempre quatro parâmetrtos 
+next (onde se deseja usar o middlware) envia o erro para o app.use
