@@ -1,5 +1,5 @@
 import NaoEncontrado from "../erros/NaoEncontrado.js";
-import {livros} from "../models/index.js";
+import { autores, livros } from "../models/index.js";
 
 class LivroController {
 
@@ -21,10 +21,10 @@ class LivroController {
         .populate("autor", "nome")
         .exec();
 
-      if(livroResultado!==null){
+      if (livroResultado !== null) {
 
         res.status(200).send(livroResultado);
-      }else{
+      } else {
         next(new NaoEncontrado("Id do livro não localizado"));
       }
 
@@ -37,8 +37,8 @@ class LivroController {
 
     try {
       let livroNovo = new livros(req.body);
-      livroNovo=await livroNovo.save();
-      
+      livroNovo = await livroNovo.save();
+
       res.status(201).send(livroNovo.toJSON());
     } catch (erro) {
       next(erro);
@@ -50,60 +50,74 @@ class LivroController {
 
     try {
       const id = req.params.id;
-  
-      const livroResultado =await livros.findByIdAndUpdate(id, { $set: req.body });
-      if(livroResultado!==null){
+
+      const livroResultado = await livros.findByIdAndUpdate(id, { $set: req.body });
+      if (livroResultado !== null) {
 
         res.status(200).send({ message: "Livro atualizado com sucesso" });
-      }else{
+      } else {
         next(new NaoEncontrado("Id do autor não localizado"));
       }
-      
+
     } catch (erro) {
-      next(erro); 
+      next(erro);
     }
   };
 
   static excluirLivro = async (req, res, next) => {
     try {
       const id = req.params.id;
-  
-      const livroResultado=await livros.findByIdAndDelete(id);
-      if(livroResultado!==null){
+
+      const livroResultado = await livros.findByIdAndDelete(id);
+      if (livroResultado !== null) {
 
         res.status(200).send({ message: "Livro removido com sucesso" });
-      }else{
+      } else {
         next(new NaoEncontrado("Id do autor não localizado"));
       }
-      
+
 
     } catch (erro) {
-      
+
       next(erro);
     }
   };
 
   static listarLivroPorFiltro = async (req, res, next) => {
     try {
-      const busca = processaBusca(req.query);
+      const busca = await processaBusca(req.query);
+      if (busca !== null) {
 
-      const resultado=await livros.find(busca);
+        const resultado = await livros.find(busca).populate("autor");
 
-      res.status(200).send(resultado);
+        res.status(200).send(resultado);
+
+      }else{
+        res.status(200).send([]);
+      }
     } catch (erro) {
       next(erro);
     }
   };
 }
 
-function processaBusca(parametros){
-  const{editora, titulo, minPaginas, maxPaginas}=parametros;
-  const busca ={};
-  if(editora) busca.editora=editora;
-  if(titulo) busca.titulo={$regex:titulo, $options:"i"};
-  if(minPaginas||maxPaginas) busca.numeroPaginas={};
-  if(minPaginas) busca.numeroPaginas={$gte:minPaginas};
-  if(maxPaginas) busca.numeroPaginas={$lte:maxPaginas};
+async function processaBusca(parametros) {
+  const { editora, titulo, minPaginas, maxPaginas, nomeAutor } = parametros;
+  let busca = {};
+  if (editora) busca.editora = editora;
+  if (titulo) busca.titulo = { $regex: titulo, $options: "i" };
+  if (minPaginas || maxPaginas) busca.numeroPaginas = {};
+  if (minPaginas) busca.numeroPaginas = { $gte: minPaginas };
+  if (maxPaginas) busca.numeroPaginas = { $lte: maxPaginas };
+  if (nomeAutor) {
+    const autor = await autores.findOne({ nome: nomeAutor });
+    if (autor !== null) {
+      const autorId=autor._id;
+      busca.autor = autorId;
+    } else {
+      busca = null;
+    }
+  }
   return busca;
 }
 
