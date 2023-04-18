@@ -7,3 +7,4 @@ middleware-> função especial do express que vai ser usada em todas as requisi�
 middleware de erro tem sempre quatro parâmetrtos 
 next (onde se deseja usar o middlware) envia o erro para o app.use
 paginando rotas (10em10)->.skip(valor).limit
+req.resultado manda de um middleware para o outro
