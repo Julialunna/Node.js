@@ -6,3 +6,4 @@ npx eslint pasta --fix concerta erros
 middleware-> função especial do express que vai ser usada em todas as requisições (app.use(erro,req,res,next)), interceptam uma requisição
 middleware de erro tem sempre quatro parâmetrtos 
 next (onde se deseja usar o middlware) envia o erro para o app.use
+paginando rotas (10em10)->.skip(valor).limit
